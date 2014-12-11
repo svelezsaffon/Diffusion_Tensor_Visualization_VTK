@@ -11,7 +11,7 @@ class ImageModification(object):
     def __init__(self,dti):
 
 
-        self.print_counter=8
+        self.print_counter=11
         ren = vtk.vtkRenderer()
 
         self.dti_reader = vtk.vtkStructuredPointsReader()
@@ -63,14 +63,14 @@ class ImageModification(object):
 
         iren.AddObserver('RightButtonPressEvent', self.capture_image, 1.0)
 
-
+        """
         #Slider 1
         sliderRep1=vtk.vtkSliderWidget()
         sliderRep1.SetInteractor(iren)
         sliderRep1.SetRepresentation(self.create_color_slider("X-Position",0.02,0.15,0,220,65))
         sliderRep1.SetEnabled(True)
         sliderRep1.AddObserver("InteractionEvent", self.change_iso)
-
+        """
 
 
         # Scalar Bar actor
