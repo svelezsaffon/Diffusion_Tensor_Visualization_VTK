@@ -116,9 +116,9 @@ class ImageModification(object):
 
         self.arrowColor.AddRGBPoint(0, 1.0, 0.0, 0.0)
 
-        self.arrowColor.AddRGBPoint(0.6, 0.0, 1.0, 0.0)
+        self.arrowColor.AddRGBPoint(0.4, 0.0, 1.0, 0.0)
 
-        self.arrowColor.AddRGBPoint(1.5, 0.0, 0.0, 1.0)
+        self.arrowColor.AddRGBPoint(1.0, 0.0, 0.0, 1.0)
 
     def create_hyper_stream_line(self,x,y,z):
 
