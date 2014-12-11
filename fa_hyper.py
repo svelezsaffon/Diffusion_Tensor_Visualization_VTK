@@ -38,7 +38,7 @@ class ImageModification(object):
         #------------NEW CODE BEGINS HERE----------
 
 
-        for i in range(0,1000):
+        for i in range(0,10):
             ren.AddActor(self.create_hyper_stream_line(i,i,i))
 
         ren.AddVolume(self.create_volume_rendering())

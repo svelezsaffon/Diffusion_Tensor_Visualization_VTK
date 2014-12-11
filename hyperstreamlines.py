@@ -33,12 +33,14 @@ class ImageModification(object):
         #------------NEW CODE BEGINS HERE----------
 
 
-        for i in range(0,1000):
-            ren.AddActor(self.create_hyper_stream_line(i,i,i))
+        for i in range(0,10):
+            ren.AddActor(self.create_hyper_stream_line(130,130,i))
 
+        for i in range(0,10):
+            ren.AddActor(self.create_hyper_stream_line(130,130,i))
 
-
-
+        for i in range(65,75):
+            ren.AddActor(self.create_hyper_stream_line(0,0,i))
 
 
         #------------NEW CODE ENDS HERE------------
