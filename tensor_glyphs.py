@@ -43,9 +43,9 @@ class ImageModification(object):
                 y=130.0
                 z=0.0
             if i==2:
-                x=130.0
-                y=130.0
-                z=130.0
+                x=0.0
+                y=0.0
+                z=65.0
 
             plane_mapper=self.create_cut_acto_plane(x,y,z,i)
             ren.AddActor(self.create_glyph(plane_mapper))
@@ -63,14 +63,14 @@ class ImageModification(object):
 
         iren.AddObserver('RightButtonPressEvent', self.capture_image, 1.0)
 
-
+        """
         #Slider 1
         sliderRep1=vtk.vtkSliderWidget()
         sliderRep1.SetInteractor(iren)
         sliderRep1.SetRepresentation(self.create_color_slider("X-Position",0.02,0.15,0,220))
         sliderRep1.SetEnabled(True)
         sliderRep1.AddObserver("InteractionEvent", self.change_iso)
-
+        """
 
 
         # Scalar Bar actor
@@ -131,7 +131,7 @@ class ImageModification(object):
         ptMask = vtk.vtkMaskPoints()
         ptMask.SetInputConnection(plane_mapper.GetOutputPort())
         ptMask.SetOnRatio(10)
-        #ptMask.RandomModeOn()
+        ptMask.RandomModeOn()
 
 
         arrows = vtk.vtkSphereSource()
@@ -144,7 +144,7 @@ class ImageModification(object):
 
         glyph = vtk.vtkTensorGlyph()
         glyph.SetSourceConnection(arrows.GetOutputPort())
-        glyph.SetInputConnection(plane_mapper.GetOutputPort())
+        glyph.SetInputConnection(ptMask.GetOutputPort())
         glyph.SetScaleFactor(10)
         glyph.ColorGlyphsOn()
         glyph.SetColorModeToEigenvector()
@@ -175,7 +175,7 @@ class ImageModification(object):
         if plane_id==1:
             plane.SetNormal(0,1,0)
         if plane_id==2:
-            plane.SetNormal(0.5,0.5,0)
+            plane.SetNormal(0.0,0.0,1)
 
         #create cutter
         cutter=vtk.vtkCutter()
@@ -188,10 +188,6 @@ class ImageModification(object):
         probe_filter=vtk.vtkProbeFilter()
         probe_filter.SetInputConnection(cutter.GetOutputPort())
         probe_filter.SetSourceConnection(self.dti_reader.GetOutputPort())
-
-
-        if plane_id==0:
-            self.plane1=plane
 
 
         return probe_filter
