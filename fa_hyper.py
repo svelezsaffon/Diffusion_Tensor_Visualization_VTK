@@ -8,7 +8,7 @@ import sys
 
 class ImageModification(object):
 
-    def __init__(self,dti):
+    def __init__(self,dti,vol_geo):
 
 
         self.print_counter=0
@@ -16,6 +16,11 @@ class ImageModification(object):
 
         self.dti_reader = vtk.vtkStructuredPointsReader()
         self.dti_reader.SetFileName(dti)
+
+
+
+        self.vol_reader = vtk.vtkStructuredPointsReader()
+        self.vol_reader.SetFileName(vol_geo)
 
 
         self.geo_Mapper=vtk.vtkPolyDataMapper()
@@ -36,16 +41,11 @@ class ImageModification(object):
         for i in range(0,1000):
             ren.AddActor(self.create_hyper_stream_line(i,i,i))
 
-
-
+        ren.AddVolume(self.create_volume_rendering())
 
 
 
         #------------NEW CODE ENDS HERE------------
-
-
-
-
 
 
 
@@ -82,15 +82,43 @@ class ImageModification(object):
         self.renWin.Render()
         iren.Start()
 
+    def create_volume_rendering(self):
+
+        opacityfunction=vtk.vtkPiecewiseFunction()
+
+        opacityfunction.AddPoint(0,0.0)
+        opacityfunction.AddPoint(0.4,0.1)
+        opacityfunction.AddPoint(1,0.02)
+        opacityfunction.AddPoint(1.5,0.03)
+
+
+
+
+        volproperty=vtk.vtkVolumeProperty()
+        volproperty.SetColor(self.arrowColor)
+        volproperty.SetScalarOpacity(opacityfunction)
+        volproperty.ShadeOn()
+        volproperty.SetInterpolationTypeToLinear()
+
+
+        volumeMapper = vtk.vtkGPUVolumeRayCastMapper()
+        volumeMapper.SetInputConnection(self.vol_reader.GetOutputPort())
+        volumeMapper.SetSampleDistance(0.01)
+
+        volume = vtk.vtkVolume()
+        volume.SetMapper(volumeMapper)
+        volume.SetProperty(volproperty)
+
+        return volume
 
 
     def update_look_up_table(self):
 
         self.arrowColor.AddRGBPoint(0, 1.0, 0.0, 0.0)
 
-        self.arrowColor.AddRGBPoint(60, 0.0, 1.0, 0.0)
+        self.arrowColor.AddRGBPoint(0.6, 0.0, 1.0, 0.0)
 
-        self.arrowColor.AddRGBPoint(120, 0.0, 0.0, 1.0)
+        self.arrowColor.AddRGBPoint(1.5, 0.0, 0.0, 1.0)
 
     def create_hyper_stream_line(self,x,y,z):
 
@@ -133,5 +161,6 @@ class ImageModification(object):
 
 if __name__ == '__main__':
     dti =sys.argv[0:][1]
+    vol_geo =sys.argv[0:][2]
 
-    ImageModification(dti)
+    ImageModification(dti,vol_geo)
