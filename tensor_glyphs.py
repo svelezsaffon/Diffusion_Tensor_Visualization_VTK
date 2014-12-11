@@ -50,7 +50,7 @@ class ImageModification(object):
             plane_mapper=self.create_cut_acto_plane(x,y,z,i)
             ren.AddActor(self.create_glyph(plane_mapper))
 
-
+        #this is done
 
 
         #Add renderer to renderwindow and render
