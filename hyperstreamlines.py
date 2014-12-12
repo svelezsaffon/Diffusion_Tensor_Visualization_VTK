@@ -37,20 +37,12 @@ class ImageModification(object):
 
         #------------NEW CODE BEGINS HERE----------
 
-        for i in range(0,10):
-            ren.AddActor(self.create_hyper_stream_line(130,130,i))
+        [xposc, yposc, zposc] = self.dti_reader.GetOutput().GetCenter()
 
+        for k in range(20, 30,2):
+            for i in range(10, 20):
+                ren.AddActor(self.create_hyper_stream_line(xposc+i, yposc+k, zposc))
 
-        for i in range(0,10):
-            ren.AddActor(self.create_hyper_stream_line(110,130,i))
-
-        """
-        for i in range(0,100):
-            ren.AddActor(self.create_hyper_stream_line(130,130,i))
-        """
-
-        for i in range(65,165):
-            ren.AddActor(self.create_hyper_stream_line(0,0,i))
 
         #------------NEW CODE ENDS HERE------------
 
@@ -91,11 +83,9 @@ class ImageModification(object):
 
     def update_look_up_table(self):
 
-        self.arrowColor.AddRGBPoint(0, 0.0, 0.0, 1.0)
-
-        #self.arrowColor.AddRGBPoint(0.0015, 1.0, 0.0, 1.0)
-
-        self.arrowColor.AddRGBPoint(0.004, 1.0, 0.0, 0.0)
+        self.arrowColor.AddRGBPoint(0.001, 1.0, 1.0, 0.0)
+        self.arrowColor.AddRGBPoint(0.0015, 0.0, 1.0, 0.0)
+        self.arrowColor.AddRGBPoint(0.002, 0.85, 1.0, 1.0)
 
     def create_hyper_stream_line(self,x,y,z):
 
@@ -109,7 +99,7 @@ class ImageModification(object):
         streamline.LogScalingOn()
 
         streamline.SetIntegrationDirectionToIntegrateBothDirections()
-        #streamline.TubeWrappingOff()
+        streamline.TubeWrappingOff()
 
 
         streamlineMapper = vtk.vtkPolyDataMapper()

@@ -44,20 +44,12 @@ class ImageModification(object):
         #------------NEW CODE BEGINS HERE----------
 
 
-        for i in range(0,10):
-            ren.AddActor(self.create_hyper_stream_line(130,130,i))
+        [xposc, yposc, zposc] = self.dti_reader.GetOutput().GetCenter()
 
 
-        for i in range(0,10):
-            ren.AddActor(self.create_hyper_stream_line(110,130,i))
-
-        """
-        for i in range(0,100):
-            ren.AddActor(self.create_hyper_stream_line(130,130,i))
-
-        """
-        for i in range(110,500):
-            ren.AddActor(self.create_hyper_stream_line(i,i,i))
+        for k in range(20, 40,2):
+            for i in range(10, 20):
+                ren.AddActor(self.create_hyper_stream_line(xposc+i, yposc+k, zposc))
 
 
 
@@ -131,13 +123,10 @@ class ImageModification(object):
 
     def update_look_up_table(self):
 
-        self.arrowColor.AddRGBPoint(0, 1.0, 1.0, 0.0)
+        self.arrowColor.AddRGBPoint(0.001, 1.0, 1.0, 0.0)
+        self.arrowColor.AddRGBPoint(0.002, 0.0, 1.0, 0.0)
+        self.arrowColor.AddRGBPoint(0.003, 0.75, 0.75, 0.75)
 
-        #self.arrowColor.AddRGBPoint(0.0015, 1.0, 0.0, 1.0)
-
-        self.arrowColor.AddRGBPoint(0.004, 1.0, 0.0, 0.0)
-
-        self.arrowColor.AddRGBPoint(0.01, 0.0, 1.0, 0.0)
 
     def create_hyper_stream_line(self,x,y,z):
 
@@ -172,7 +161,7 @@ class ImageModification(object):
         self.w2i.SetInput(self.renWin)
         self.writer = vtk.vtkJPEGWriter()
         self.writer.SetInputConnection(self.w2i.GetOutputPort())
-        self.writer.SetFileName(`self.print_counter` + "vectorscreen.jpg");
+        self.writer.SetFileName(`self.print_counter` + "screen_shot.jpg");
         self.print_counter =1 + self.print_counter
         self.writer.Write()
 
