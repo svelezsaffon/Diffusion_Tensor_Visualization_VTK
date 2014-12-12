@@ -38,8 +38,16 @@ class ImageModification(object):
         #------------NEW CODE BEGINS HERE----------
 
 
-        for i in range(0,10):
-            ren.AddActor(self.create_hyper_stream_line(i,i,i))
+        for i in range(0,100):
+            ren.AddActor(self.create_hyper_stream_line(130,130,i))
+        """
+        for i in range(0,100):
+            ren.AddActor(self.create_hyper_stream_line(130,130,0))
+
+
+        for i in range(65,165):
+            ren.AddActor(self.create_hyper_stream_line(0,0,i))
+        """
 
         ren.AddVolume(self.create_volume_rendering())
 
@@ -87,7 +95,7 @@ class ImageModification(object):
         opacityfunction=vtk.vtkPiecewiseFunction()
 
         opacityfunction.AddPoint(0,0.0)
-        opacityfunction.AddPoint(0.4,0.1)
+        opacityfunction.AddPoint(0.4,0.01)
         opacityfunction.AddPoint(1,0.02)
         opacityfunction.AddPoint(1.5,0.03)
 

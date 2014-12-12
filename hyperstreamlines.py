@@ -21,32 +21,25 @@ class ImageModification(object):
         self.geo_Mapper=vtk.vtkPolyDataMapper()
         self.geo_Mapper.SetInputConnection(self.dti_reader.GetOutputPort())
 
-
-
         self.arrowColor = vtk.vtkColorTransferFunction()
 
         self.update_look_up_table()
 
 
 
-
         #------------NEW CODE BEGINS HERE----------
 
-
-        for i in range(0,10):
+        for i in range(0,100):
             ren.AddActor(self.create_hyper_stream_line(130,130,i))
-
-        for i in range(0,10):
+        """
+        for i in range(0,100):
             ren.AddActor(self.create_hyper_stream_line(130,130,i))
+        """
 
-        for i in range(65,75):
+        for i in range(65,165):
             ren.AddActor(self.create_hyper_stream_line(0,0,i))
 
-
         #------------NEW CODE ENDS HERE------------
-
-
-
 
 
 
@@ -77,9 +70,6 @@ class ImageModification(object):
         scalar_bar_widget.SetScalarBarActor(scalar_bar)
         scalar_bar_widget.On()
 
-
-
-
         ren.SetBackground(0,0,0)
         self.renWin.Render()
         iren.Start()
@@ -90,24 +80,22 @@ class ImageModification(object):
 
         self.arrowColor.AddRGBPoint(0, 1.0, 0.0, 0.0)
 
-        self.arrowColor.AddRGBPoint(60, 0.0, 1.0, 0.0)
+        self.arrowColor.AddRGBPoint(0.4, 0.0, 1.0, 0.0)
 
-        self.arrowColor.AddRGBPoint(120, 0.0, 0.0, 1.0)
+        self.arrowColor.AddRGBPoint(1.0, 0.0, 0.0, 1.0)
 
     def create_hyper_stream_line(self,x,y,z):
-
-
 
         streamline = vtk.vtkHyperStreamline()
         streamline.SetInputConnection(self.dti_reader.GetOutputPort())
         streamline.SetStartPosition(x,y,z)
         streamline.SetIntegrationStepLength(0.05)
-        #streamline.SetMaximumPropagationDistance(1000)
-        #streamline.SetIntegrationEigenvectorToMajor()
+        streamline.SetMaximumPropagationDistance(220)
+        streamline.SetIntegrationEigenvectorToMajor()
         #streamline.SetRadius(0.1)
         streamline.LogScalingOn()
         streamline.SetIntegrationDirectionToIntegrateBothDirections()
-        #streamline.TubeWrappingOff()
+        streamline.TubeWrappingOff()
 
 
         streamlineMapper = vtk.vtkPolyDataMapper()
@@ -127,7 +115,7 @@ class ImageModification(object):
         self.w2i.SetInput(self.renWin)
         self.writer = vtk.vtkJPEGWriter()
         self.writer.SetInputConnection(self.w2i.GetOutputPort())
-        self.writer.SetFileName(`self.print_counter` + "vectorscreen.jpg");
+        self.writer.SetFileName(`self.print_counter` + "screen_shot.jpg");
         self.print_counter =1 + self.print_counter
         self.writer.Write()
 

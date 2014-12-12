@@ -122,9 +122,9 @@ class ImageModification(object):
 
         self.arrowColor.AddRGBPoint(0, 1.0, 0.0, 0.0)
 
-        self.arrowColor.AddRGBPoint(60, 0.0, 1.0, 0.0)
+        self.arrowColor.AddRGBPoint(0.4, 0.0, 1.0, 0.0)
 
-        self.arrowColor.AddRGBPoint(120, 0.0, 0.0, 1.0)
+        self.arrowColor.AddRGBPoint(1.0, 0.0, 0.0, 1.0)
 
     def create_glyph(self,plane_mapper):
 
