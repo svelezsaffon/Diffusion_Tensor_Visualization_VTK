@@ -94,7 +94,7 @@ class ImageModification(object):
 
         self.arrowColor.AddRGBPoint(0, 1.0, 0.0, 0.0)
 
-        self.arrowColor.AddRGBPoint(0.001, 0.0, 1.0, 0.0)
+        self.arrowColor.AddRGBPoint(0.002, 0.0, 1.0, 0.0)
 
         self.arrowColor.AddRGBPoint(0.004, 0.0, 0.0, 1.0)
 
