@@ -43,7 +43,7 @@ class ImageModification(object):
 
         #------------NEW CODE BEGINS HERE----------
 
-        """
+
         for i in range(0,10):
             ren.AddActor(self.create_hyper_stream_line(130,130,i))
 
@@ -51,6 +51,7 @@ class ImageModification(object):
         for i in range(0,10):
             ren.AddActor(self.create_hyper_stream_line(110,130,i))
 
+        """
         for i in range(0,100):
             ren.AddActor(self.create_hyper_stream_line(130,130,i))
 
