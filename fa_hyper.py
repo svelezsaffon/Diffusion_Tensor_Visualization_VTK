@@ -26,6 +26,12 @@ class ImageModification(object):
         self.geo_Mapper=vtk.vtkPolyDataMapper()
         self.geo_Mapper.SetInputConnection(self.dti_reader.GetOutputPort())
 
+        tensor_extractor = vtk.vtkExtractTensorComponents()
+        tensor_extractor.SetInputConnection(self.dti_reader.GetOutputPort())
+        tensor_extractor.ExtractScalarsOn()
+        tensor_extractor.Update()
+        self.dti_reader.GetOutput().GetPointData().SetScalars(tensor_extractor.GetOutput().GetPointData().GetScalars())
+        self.dti_reader.Update()
 
 
         self.arrowColor = vtk.vtkColorTransferFunction()
@@ -43,15 +49,14 @@ class ImageModification(object):
 
 
         for i in range(0,10):
-            ren.AddActor(self.create_hyper_stream_line(100,130,i))
+            ren.AddActor(self.create_hyper_stream_line(110,130,i))
         """
         for i in range(0,100):
-            ren.AddActor(self.create_hyper_stream_line(130,130,0))
-
+            ren.AddActor(self.create_hyper_stream_line(130,130,i))
+        """
 
         for i in range(65,165):
             ren.AddActor(self.create_hyper_stream_line(0,0,i))
-        """
 
         ren.AddVolume(self.create_volume_rendering())
 
@@ -77,7 +82,7 @@ class ImageModification(object):
         scalar_bar.SetOrientationToHorizontal()
         scalar_bar.SetLookupTable(self.arrowColor)
         scalar_bar.SetTitle("Color map")
-        scalar_bar.SetLabelFormat("%5.2f")
+        scalar_bar.SetLabelFormat("%5.5f")
         scalar_bar.SetMaximumHeightInPixels(300)
         scalar_bar.SetMaximumWidthInPixels(100)
 
@@ -126,11 +131,13 @@ class ImageModification(object):
 
     def update_look_up_table(self):
 
-        self.arrowColor.AddRGBPoint(0, 1.0, 0.0, 0.0)
+        self.arrowColor.AddRGBPoint(0, 1.0, 1.0, 0.0)
 
-        self.arrowColor.AddRGBPoint(0.4, 0.0, 1.0, 0.0)
+        #self.arrowColor.AddRGBPoint(0.0015, 1.0, 0.0, 1.0)
 
-        self.arrowColor.AddRGBPoint(1.0, 0.0, 0.0, 1.0)
+        self.arrowColor.AddRGBPoint(0.004, 1.0, 0.0, 0.0)
+
+        self.arrowColor.AddRGBPoint(0.01, 0.0, 1.0, 0.0)
 
     def create_hyper_stream_line(self,x,y,z):
 
