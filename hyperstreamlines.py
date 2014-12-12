@@ -17,9 +17,19 @@ class ImageModification(object):
         self.dti_reader = vtk.vtkStructuredPointsReader()
         self.dti_reader.SetFileName(dti)
 
-
+        """
         self.geo_Mapper=vtk.vtkPolyDataMapper()
         self.geo_Mapper.SetInputConnection(self.dti_reader.GetOutputPort())
+        """
+        tensor_extractor = vtk.vtkExtractTensorComponents()
+        tensor_extractor.SetInputConnection(self.dti_reader.GetOutputPort())
+        #tensor_extractor.SetScalarModeToEffectiveStress()
+        tensor_extractor.ExtractScalarsOn()
+        #tensor_extractor.ExtractVectorsOff()
+        tensor_extractor.Update()
+        self.dti_reader.GetOutput().GetPointData().SetScalars(tensor_extractor.GetOutput().GetPointData().GetScalars())
+        self.dti_reader.Update()
+
 
         self.arrowColor = vtk.vtkColorTransferFunction()
 
@@ -29,8 +39,12 @@ class ImageModification(object):
 
         #------------NEW CODE BEGINS HERE----------
 
-        for i in range(0,100):
+        for i in range(0,10):
             ren.AddActor(self.create_hyper_stream_line(130,130,i))
+
+
+        for i in range(0,10):
+            ren.AddActor(self.create_hyper_stream_line(100,130,i))
         """
         for i in range(0,100):
             ren.AddActor(self.create_hyper_stream_line(130,130,i))
@@ -60,7 +74,7 @@ class ImageModification(object):
         scalar_bar.SetOrientationToHorizontal()
         scalar_bar.SetLookupTable(self.arrowColor)
         scalar_bar.SetTitle("Color map")
-        scalar_bar.SetLabelFormat("%5.2f")
+        scalar_bar.SetLabelFormat("%5.5f")
         scalar_bar.SetMaximumHeightInPixels(300)
         scalar_bar.SetMaximumWidthInPixels(100)
 
@@ -80,9 +94,9 @@ class ImageModification(object):
 
         self.arrowColor.AddRGBPoint(0, 1.0, 0.0, 0.0)
 
-        self.arrowColor.AddRGBPoint(0.4, 0.0, 1.0, 0.0)
+        self.arrowColor.AddRGBPoint(0.001, 0.0, 1.0, 0.0)
 
-        self.arrowColor.AddRGBPoint(1.0, 0.0, 0.0, 1.0)
+        self.arrowColor.AddRGBPoint(0.004, 0.0, 0.0, 1.0)
 
     def create_hyper_stream_line(self,x,y,z):
 
@@ -90,12 +104,13 @@ class ImageModification(object):
         streamline.SetInputConnection(self.dti_reader.GetOutputPort())
         streamline.SetStartPosition(x,y,z)
         streamline.SetIntegrationStepLength(0.05)
-        streamline.SetMaximumPropagationDistance(220)
+        streamline.SetMaximumPropagationDistance(1000)
         streamline.SetIntegrationEigenvectorToMajor()
-        #streamline.SetRadius(0.1)
+        streamline.SetRadius(0.5)
         streamline.LogScalingOn()
+
         streamline.SetIntegrationDirectionToIntegrateBothDirections()
-        streamline.TubeWrappingOff()
+        #streamline.TubeWrappingOff()
 
 
         streamlineMapper = vtk.vtkPolyDataMapper()

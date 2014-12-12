@@ -38,8 +38,12 @@ class ImageModification(object):
         #------------NEW CODE BEGINS HERE----------
 
 
-        for i in range(0,100):
+        for i in range(0,10):
             ren.AddActor(self.create_hyper_stream_line(130,130,i))
+
+
+        for i in range(0,10):
+            ren.AddActor(self.create_hyper_stream_line(100,130,i))
         """
         for i in range(0,100):
             ren.AddActor(self.create_hyper_stream_line(130,130,0))
@@ -136,12 +140,12 @@ class ImageModification(object):
         streamline.SetInputConnection(self.dti_reader.GetOutputPort())
         streamline.SetStartPosition(x,y,z)
         streamline.SetIntegrationStepLength(0.05)
-        #streamline.SetMaximumPropagationDistance(1000)
+        streamline.SetMaximumPropagationDistance(1000)
         #streamline.SetIntegrationEigenvectorToMajor()
-        #streamline.SetRadius(0.1)
+        streamline.SetRadius(0.1)
         streamline.LogScalingOn()
         streamline.SetIntegrationDirectionToIntegrateBothDirections()
-        #streamline.TubeWrappingOff()
+        streamline.TubeWrappingOff()
 
 
         streamlineMapper = vtk.vtkPolyDataMapper()
